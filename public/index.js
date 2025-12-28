@@ -9,8 +9,3 @@ startButton.addEventListener('click', e =>{
     e.preventDefault();
     window.location.href = 'game.html';
 })
-// FUNCTIONS
-
-function startGame(){
-    document.prvent
-}
