@@ -1,10 +1,11 @@
 :root{
-    --font-size: 40px;
-    --font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --cargo-theme-color: rgb(108, 255, 250);
-    --cargo-brown-color: rgba(150, 84, 3, 0.885);
-    --cargo-green-color: rgba(11, 135, 2,0.8);
+  --font-size: 40px;
+  --font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --cargo-theme-color: rgb(108, 255, 250);
+  --cargo-brown-color: rgba(150, 84, 3, 0.885);
+  --cargo-green-color: rgba(11, 135, 2, 0.8);
 }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -12,43 +13,51 @@ html, body {
   overflow: hidden;
 }
 
-body{
-    background-color: var(--cargo-theme-color);
-    font-family: var(--font-family);
+body {
+  background-color: var(--cargo-theme-color);
+  font-family: var(--font-family);
 }
+
+/* NAV OVERLAY */
 .nav {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
   height: 30vh;
+  width: 100%;
+  z-index: 10;
 }
 
-
+/* TITLE CONTAINER */
 .start-container {
   position: absolute;
-  box-shadow: 10px 10px 0 rgba(150, 84, 3,.8);
+  top: 20px;
+  left: 20px;
+
+  box-shadow: 10px 10px 0 rgba(150, 84, 3, 0.8);
   background-color: rgba(173, 254, 252, 0.88);
 
   display: flex;
-  justify-content: center; /* vertical */
-  align-items: center;     /* horizontal */
+  align-items: center;
+  justify-content: center;
 
-  width: fit-content;
-  height: fit-content;
   padding: 12px 20px;
-  margin: 20px 0 0 20px;
 
   border: 3px solid black;
   border-radius: 10px;
 }
 
+/* 🔑 THIS IS THE IMPORTANT FIX */
 .start-title {
+  display: flex;          /* force row layout */
+  flex-direction: row;    /* explicit row */
+  gap: 0;                 /* no extra spacing */
   margin: 0;
   padding: 0;
   line-height: 1;
 }
 
+/* LETTERS */
 .start-title span {
   font-size: 50px;
   color: rgb(11, 135, 2);
@@ -66,12 +75,167 @@ body{
   text-shadow: 6px 8px 0 rgba(0, 0, 0, 0.7);
 }
 
-.container {
-  width: 100%;
+/* GAME AREA */
+.viewport {
+  width: 100vw;
   height: 100vh;
-
-  display: flex;
-  justify-content: center; /* horizontal */
-  align-items: center;     /* vertical */
+  position: relative;
+  overflow: hidden;
 }
 
+.world {
+  width: 3000px;
+  height: 3000px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* TERRAIN */
+.terrain {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.terrain.forest {
+  background:
+    /* Soft dappled light through canopy */
+    radial-gradient(ellipse 80px 60px at 20% 30%, rgba(34, 85, 51, 0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 100px 80px at 60% 20%, rgba(20, 60, 45, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 70px 90px at 80% 70%, rgba(25, 70, 50, 0.5) 0%, transparent 65%),
+    radial-gradient(ellipse 90px 70px at 40% 80%, rgba(30, 75, 55, 0.4) 0%, transparent 60%),
+    /* Base gradient - deep forest floor */
+    linear-gradient(
+      160deg,
+      #0a1f14 0%,
+      #0d2818 15%,
+      #12321d 30%,
+      #0f2a1a 50%,
+      #0b2316 70%,
+      #081c12 100%
+    );
+}
+
+/* Fog/mist layer */
+.terrain.forest::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    /* Drifting fog patches */
+    radial-gradient(ellipse 400px 200px at 10% 40%, rgba(180, 200, 210, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 300px 150px at 70% 20%, rgba(170, 190, 205, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse 500px 250px at 30% 80%, rgba(175, 195, 210, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 350px 180px at 90% 60%, rgba(180, 200, 215, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 450px 200px at 50% 50%, rgba(160, 185, 200, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Tree container */
+.tree {
+  position: absolute;
+}
+
+/* Branch clump - the fluffy parts */
+.branch-clump {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 35% 35%,
+    #2d5a3a 0%,
+    #1f4a2c 25%,
+    #164020 50%,
+    #0e3018 75%,
+    #0a2412 100%
+  );
+  box-shadow:
+    inset 2px 2px 8px rgba(60, 100, 70, 0.3),
+    inset -3px -3px 10px rgba(0, 20, 10, 0.5),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Variation classes for different clump colors */
+.branch-clump.light {
+  background: radial-gradient(
+    ellipse at 30% 30%,
+    #3a6b48 0%,
+    #2a5838 30%,
+    #1e4a2a 60%,
+    #143a1e 100%
+  );
+}
+
+.branch-clump.dark {
+  background: radial-gradient(
+    ellipse at 40% 40%,
+    #1a4025 0%,
+    #12321a 35%,
+    #0a2512 70%,
+    #061a0c 100%
+  );
+}
+
+.branch-clump.mid {
+  background: radial-gradient(
+    ellipse at 35% 30%,
+    #265232 0%,
+    #1c4428 40%,
+    #133620 70%,
+    #0c2816 100%
+  );
+}
+
+/* Tree shadow on ground */
+.tree-shadow {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(0, 15, 5, 0.4) 0%,
+    rgba(0, 10, 3, 0.2) 50%,
+    transparent 70%
+  );
+}
+
+.drop-zone {
+  width: 400px; /* Made it a bit larger for more presence */
+  height: 300px;
+  position: absolute;
+  bottom: 350px; /* Adjusted slightly to fit better in the drop area */
+  right: 350px;
+  background:
+    /* Deep base water with subtle gradient for depth */
+    radial-gradient(ellipse at 50% 50%, #0f2a38 0%, #0d2330 30%, #081c28 60%, #061522 100%),
+    
+    /* Canopy reflections - dark green patches mirroring the forest */
+    radial-gradient(ellipse 120px 80px at 30% 40%, rgba(10, 35, 25, 0.6) 0%, transparent 60%),
+    radial-gradient(ellipse 150px 100px at 70% 30%, rgba(8, 30, 22, 0.5) 0%, transparent 55%),
+    radial-gradient(ellipse 100px 70px at 50% 70%, rgba(12, 38, 28, 0.7) 0%, transparent 65%),
+    radial-gradient(ellipse 130px 90px at 20% 70%, rgba(10, 32, 24, 0.4) 0%, transparent 50%),
+    
+    /* Subtle light ripples/highlights - soft and sparse */
+    radial-gradient(ellipse at 40% 50%, rgba(80, 140, 180, 0.15) 0%, transparent 40%),
+    radial-gradient(ellipse at 60% 40%, rgba(100, 160, 200, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 60%, rgba(70, 130, 170, 0.1) 0%, transparent 50%);
+
+  border-radius: 45% 55% 50% 48%; /* More organic irregular shape */
+  box-shadow:
+    inset 0 0 60px rgba(0, 20, 40, 0.8), /* Deeper inner shadow for volume */
+    0 10px 40px rgba(0, 0, 0, 0.6); /* Soft drop shadow to sit in terrain */
+
+  filter: contrast(1.2) saturate(0.9) brightness(0.9);
+  
+  /* Optional: slight animation for gentle water movement */
+  animation: gentleRipple 12s ease-in-out infinite alternate;
+}
+
+@keyframes gentleRipple {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.02) rotate(0.5deg); }
+}

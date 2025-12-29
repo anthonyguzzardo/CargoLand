@@ -1,24 +1,39 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <title> Test </title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../styles/game.css">
-    <link rel="stylesheet" href="../styles/drone.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test</title>
 
+  <link rel="stylesheet" href="../styles/game.css">
+  <link rel="stylesheet" href="../styles/drone.css">
 </head>
 <body>
-    <div class="nav">
-        <div class="start-container">
-            <h1 class="start-title">
-                <span>C</span><span>A</span><span>R</span><span>G</span><span>O</span>
-                <span>L</span><span>A</span><span>N</span><span>D</span>
-            </h1>
+  <div class="nav">
+    <div class="start-container">
+      <h1 class="start-title">
+        <span>C</span><span>A</span><span>R</span><span>G</span><span>O</span>
+        <span>L</span><span>A</span><span>N</span><span>D</span>
+      </h1>
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="world">
+      <div class="terrain forest"></div>
+      <div class="drop-zone"></div>
+      <div class="drone">
+        <div class="drone-blade"></div>
+        <div class="drone-hub"></div>
+        <div class="drone-body"></div>
+        <div class="cargo">
+          <div class="cargo-body"></div>
+          <div class="cargo-light"></div>
         </div>
+      </div>
     </div>
-    <div class="container">
-        <div class="drone"></div>
-            
-    </div>
-    <script src="../../dist/game.js"></script>
-</body>    
+  </div>
+
+  <script src="../../dist/game.js"></script>
+</body>
 </html>
